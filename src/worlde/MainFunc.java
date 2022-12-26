@@ -23,9 +23,10 @@ public class MainFunc {
 	static String swedishAlphabet = "QWERTYUIOPÅASDFGHJKLÖÄZXCVBNM";
 	static String englishAlphabet = "QWERTYUIOPASDFGHJKLZXCVBNM";
 	static String swedishShortcut = "QWRUSDFHJÄZXCB";
-	static String englishShortcut = "QGJZXVB chuff";
-	static String swedishFile = "C:\\Users\\User\\eclipse-workspace\\worlde\\src\\worlde\\svenska-ord.txt";
-	static String englishFile = "C:\\Users\\User\\eclipse-workspace\\worlde\\src\\worlde\\english-words.txt";
+	static String englishShortcut = "QGJZXVB chuf";
+	static String ordlig = "QWTYGHJZV fläck";
+	static String swedishFile = "doesnt matter";
+	static String englishFile = "doesnt matter";
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -40,6 +41,13 @@ public class MainFunc {
 			}
 			
 		}
+		
+		File directory = new File("./");
+		String fileP = directory.getAbsolutePath();
+		fileP = fileP.substring(0, fileP.length()-1);
+		   //System.out.println(fileP);
+		swedishFile = fileP + "svenska-ord.txt";
+		englishFile = fileP + "english-words.txt";
 		
 		JFrame frame = new JFrame("WordleCheater");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -227,7 +235,7 @@ public class MainFunc {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				
-				letterBox.setText("QWYOPHJÖÄZXCVB");
+				letterBox.setText(ordlig);
 			}
         	
         });
