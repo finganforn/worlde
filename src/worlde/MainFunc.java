@@ -70,6 +70,7 @@ public class MainFunc {
         ArrayList<String> swedishWords = new ArrayList<String>();
         ArrayList<String> swedishWords6 = new ArrayList<String>();
         ArrayList<String> englishWords = new ArrayList<String>();
+        ArrayList<String> ordligWords5 = new ArrayList<String>();
         Scanner sc;
         try {
 			sc = new Scanner(new File(swedishFile));
@@ -83,22 +84,22 @@ public class MainFunc {
 	            	swedishWords6.add(s);
 	            if (s.length() == 5) {
 	            	swedishWords.add(s);
-	            	
-	            	swedishWords6.add((s+"A"));
-	            	swedishWords6.add((s+"E"));
+	            	ordligWords5.add(s);
+	            	//swedishWords6.add((s+"A"));
+	            	//swedishWords6.add((s+"E"));
 	            	
 	            }
 	            if (s.length() == 4) {
 	            	swedishWords.add((s+"A"));
 	            	swedishWords.add((s+"E"));
 	            	
-	            	swedishWords6.add((s+"EN"));
+	            	/*swedishWords6.add((s+"EN"));
 	            	swedishWords6.add((s+"ER"));
 	            	swedishWords6.add((s+"AR"));
 	            	swedishWords6.add((s+"AN"));
 	            	swedishWords6.add((s+"ET"));
 	            	swedishWords6.add((s+"AT"));
-	            	swedishWords6.add((s+"OR"));
+	            	swedishWords6.add((s+"OR"));*/
 	            }
 	            if (s.length() == 3) {
 	            	swedishWords.add((s+"EN"));
@@ -135,7 +136,8 @@ public class MainFunc {
         JButton reset = new JButton("Återställ alfabet");
         JButton shortReset = new JButton("litet alfabet");
         JButton semantle = new JButton("sem");
-        JButton ordiligKnapp = new JButton("lig");
+        JButton ordiligKnapp = new JButton("lig5");
+        JButton ordiligKnapp6 = new JButton("lig6");
 
         //JButton reset = new JButton("Reset");
         topPanel.add(ord);
@@ -151,6 +153,7 @@ public class MainFunc {
         midPanel.add(shortReset);
         midPanel.add(semantle);
         midPanel.add(ordiligKnapp);
+        midPanel.add(ordiligKnapp6);
         //midPanel.add(publishAdvice);
         //midPanel.add(everythingBox);
         JPanel sendPanel = new JPanel();
