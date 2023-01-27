@@ -20,6 +20,8 @@ import javax.swing.JTextField;
 
 public class MainFunc {
 	
+	//USDFHJ v1 n2 t5 e1 teven
+	
 	static String swedishAlphabet = "QWERTYUIOPÅASDFGHJKLÖÄZXCVBNM";
 	static String englishAlphabet = "QWERTYUIOPASDFGHJKLZXCVBNM";
 	static String swedishShortcut = "QWRUSDFHJÄZXCB";
