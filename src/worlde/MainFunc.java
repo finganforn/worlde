@@ -27,11 +27,14 @@ public class MainFunc {
 	static String swedishShortcut = "QWRUSDFHJÄZXCB";
 	static String englishShortcut = "QGJZXVB chuf";
 	static String ordlig = "QWTYGHJZV fläck";
+	static String ordlig6 = "QWYÅDHÖZXVB ";
 	static String swedishFile = "doesnt matter";
 	static String englishFile = "doesnt matter";
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		
+		/*
 		Random random = new Random();
 		int startP = random.nextInt(10000);
 		//startP = 1950;
@@ -43,7 +46,16 @@ public class MainFunc {
 			}
 			
 		}
+		for (int i = 0; i < 20; i++) {
+			int r = random.nextInt(50) + 1;
+			//System.out.println("r: "+ r);
+			double r2 = r;
+			r2 = r2/10;
+			System.out.println(r2 + " inverted : " + invert(r2));
+		}
 		
+		
+		*/
 		File directory = new File("./");
 		String fileP = directory.getAbsolutePath();
 		fileP = fileP.substring(0, fileP.length()-1);
@@ -137,7 +149,7 @@ public class MainFunc {
         JButton send = new JButton("Generera ord");
         JButton reset = new JButton("Återställ alfabet");
         JButton shortReset = new JButton("litet alfabet");
-        JButton semantle = new JButton("sem");
+        //JButton semantle = new JButton("sem");
         JButton ordiligKnapp = new JButton("lig5");
         JButton ordiligKnapp6 = new JButton("lig6");
 
@@ -153,7 +165,7 @@ public class MainFunc {
         midPanel.add(englishBox);
         midPanel.add(reset);
         midPanel.add(shortReset);
-        midPanel.add(semantle);
+        //midPanel.add(semantle);
         midPanel.add(ordiligKnapp);
         midPanel.add(ordiligKnapp6);
         //midPanel.add(publishAdvice);
@@ -189,39 +201,7 @@ public class MainFunc {
         	
         });
         
-        semantle.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				
-				double similarity = 0;
-				int index1 = 0;
-				int index2 = 0;
-				int index3 = 0;
-				int index4 = 0;
-				int index5 = 0;
-				for (int i = 0; i < englishWords.size(); i++) {
-					double thisSim = Wordle.similarity(letterBox.getText(), englishWords.get(i));
-					if (thisSim > similarity) {
-						index5 = 4;
-						index4 = index3;
-						index3 = index2;
-						index2 = index1;
-						index1 = i;
-						similarity = thisSim;
-					}
-						
-				}
-				letterBox.setText(letterBox.getText() + " is similar to: " + 
-						englishWords.get(index1)  + " " + 
-						englishWords.get(index2) + " " + 
-						englishWords.get(index3) + " " + 
-						englishWords.get(index4) + " " + 
-						englishWords.get(index5));
-			}
-        	
-        });
+        
         
         shortReset.addActionListener(new ActionListener() {
 
@@ -241,6 +221,16 @@ public class MainFunc {
 				// TODO Auto-generated method stub
 				
 				letterBox.setText(ordlig);
+			}
+        	
+        });
+        ordiligKnapp6.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+				letterBox.setText(ordlig6);
 			}
         	
         });
@@ -438,6 +428,12 @@ public class MainFunc {
 		}
 		return true;
 	}
+	
+	private static double invert(double x) {
+		return 1/x;
+	}
+	
+	
 	private static Stack<Integer> fac(int tal) {
 		Stack<Integer> res = new Stack<Integer>();
 		
