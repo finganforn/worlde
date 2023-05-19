@@ -24,7 +24,7 @@ public class MainFunc {
 	static String englishAlphabet = "QWERTYUIOPASDFGHJKLZXCVBNM";
 	static String swedishShortcut = "QWRUSDFHJÄZXCB";
 	static String englishShortcut = "QGJZXVB chuf";
-	static String ordlig = "QWYUPÅDFHJKÖÄZXCVBM påbud";
+	static String ordlig = "QWYFHJKÖÄZXCVM påbud";
 	static String ordlig6 = "QWYÅDHÖZXVB ";
 	static String swedishFile = "doesnt matter";
 	static String englishFile = "doesnt matter";
