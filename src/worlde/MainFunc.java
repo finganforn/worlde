@@ -26,8 +26,8 @@ public class MainFunc {
 	static String englishAlphabet = "QWERTYUIOPASDFGHJKLZXCVBNM";
 	static String swedishShortcut = "QWRUSDFHJÄZXCB";
 	static String englishShortcut = "QGJZXVB chuf";
-	static String ordlig = "QWTYGHJZV fläck";
-	static String ordlig6 = "QWYÅDHÖZXVB ";
+	static String ordlig = "QWYFHJKÖÄZXCVM påbud";
+	static String ordlig6 = "QWYÅDHÖZXVB";
 	static String swedishFile = "doesnt matter";
 	static String englishFile = "doesnt matter";
 	
@@ -104,8 +104,16 @@ public class MainFunc {
 	            	
 	            }
 	            if (s.length() == 4) {
-	            	swedishWords.add((s+"A"));
-	            	swedishWords.add((s+"E"));
+	            	if (Wordle.isConsonant(s.charAt(3)))
+	            	{
+	            		//System.out.println(s + "ends with consonant " + s.charAt(3) + " , add " + s + "A");
+	            		swedishWords.add((s+"A"));
+	            		swedishWords.add((s+"E"));
+	            	}
+	            	else {
+	            		//System.out.println(s + "ends with vowel " + s.charAt(3) + " , add " + s + "N");
+	            		swedishWords.add((s+"N"));
+	            	}
 	            	
 	            	/*swedishWords6.add((s+"EN"));
 	            	swedishWords6.add((s+"ER"));
@@ -115,7 +123,7 @@ public class MainFunc {
 	            	swedishWords6.add((s+"AT"));
 	            	swedishWords6.add((s+"OR"));*/
 	            }
-	            if (s.length() == 3) {
+	            if (s.length() == 3 && Wordle.isConsonant(s.charAt(2))) {
 	            	swedishWords.add((s+"EN"));
 	            	swedishWords.add((s+"ER"));
 	            	swedishWords.add((s+"AR"));

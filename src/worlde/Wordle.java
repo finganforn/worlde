@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Random;
 
 public class Wordle {
+	
+
 
 public static ArrayList<String> ordel(String word, ArrayList<Character> allowed, ArrayList<Character> required, ArrayList<Integer> indices, ArrayList<Character> wildCards) {
 		
@@ -244,5 +246,29 @@ public static ArrayList<String> ordel2(String word, ArrayList<Character> allowed
 		    }
 		    return costs[s2.length()];
 		  }
+	 public static boolean isConsonant(char a) {
+		 if (a == 'a' ||
+				 a == 'A' ||
+				 a == 'e' ||
+				 a == 'E' ||
+				 a == 'i' ||
+				 a == 'I' ||
+				 a == 'O' ||
+				 a == 'o' ||
+				 a == 'U' ||
+				 a == 'u' ||
+				 a == 'Å' ||
+				 a == 'å' ||
+				 a == 'Ä' ||
+				 a == 'ä' ||
+				 a == 'Ö' ||
+				 a == 'ö' ||
+				 a == 'Y' ||
+				 a == 'y'
+				 
+				 )
+			 return false;
+		 return true;
+	 }
 	
 }
