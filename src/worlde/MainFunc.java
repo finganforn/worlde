@@ -130,7 +130,6 @@ public class MainFunc {
 	            	swedishWords.add((s+"AN"));
 	            	swedishWords.add((s+"ET"));
 	            	swedishWords.add((s+"AT"));
-	            	swedishWords.add((s+"OR"));
 	            }
 	            
 				}
