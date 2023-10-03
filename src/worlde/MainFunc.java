@@ -50,13 +50,6 @@ public class MainFunc {
 			}
 			
 		}
-		for (int i = 0; i < 20; i++) {
-			int r = random.nextInt(50) + 1;
-			//System.out.println("r: "+ r);
-			double r2 = r;
-			r2 = r2/10;
-			System.out.println(r2 + " inverted : " + invert(r2));
-		}
 		
 		
 		
@@ -65,7 +58,7 @@ public class MainFunc {
 		//operationsGame(nums, 59);
 		
 		
-		for (int hej = 0; hej < 10; hej++) {
+		for (int hej = 0; hej < 11; hej++) {
 			ArrayList<Integer> generatedProb = generateProb();
 			while (generatedProb == null)
 				generatedProb = generateProb();
@@ -73,7 +66,10 @@ public class MainFunc {
 			int probRes = generatedProb.get(probSize-1);
 			generatedProb.remove(probSize-1);
 			System.out.println("numbers: " + generatedProb + " wanted result: " + probRes);
-			operationsGame(generatedProb, probRes);
+			String r = operationsGame(generatedProb, probRes);
+			String r2 = operationsGame2(generatedProb, probRes);
+			System.out.println("result old func: " + r);
+			System.out.println("result new func: " + r2);
 		}
 		
 		
@@ -572,7 +568,7 @@ public class MainFunc {
 				int resM = Integer.parseInt(resMaybe);
 				if (resM == res)
 					{
-						System.out.println(s + " = " + resM);
+						//System.out.println(s + " = " + resM);
 						return s;
 					}
 				}
@@ -669,6 +665,104 @@ public class MainFunc {
 		}
 		
 		
+		return res;
+	}
+	
+	private static String operationsGame2(ArrayList<Integer> nums, int wantedRes) {
+		String res = "";
+		int numsSize = nums.size();
+		
+		double closestOne = 10000;
+		String closestString = "";
+		for (int i = 0; i < 10000; i++) {
+			
+		
+			ArrayList<Integer> numsAvailable = new ArrayList<Integer>();
+			for (int i2 : nums) numsAvailable.add(i2);
+			res = "";
+			double generatedRes = 0;
+			boolean addSubDone = false;
+			
+			Random rand = new Random();
+			int firstNumIndex = rand.nextInt(numsAvailable.size());
+			generatedRes = numsAvailable.get(firstNumIndex);
+			res += (int)generatedRes;
+			numsAvailable.remove(firstNumIndex);
+			
+			
+			for (int j = 0; j < numsSize && numsAvailable.size() > 0; j++ ) {
+				//res = "";
+				int op = rand.nextInt(4);
+				int numIndex = rand.nextInt(numsAvailable.size());
+				int numVal = numsAvailable.get(numIndex);
+				
+				//numsAvailable.remove(numIndex);
+				
+				if (op == 0 && numVal != 0) {//+
+					addSubDone = true;
+					res += "+" + (int)numsAvailable.get(numIndex);
+					generatedRes += numsAvailable.get(numIndex);
+					
+				}
+				else if (op == 1 && numVal != 0) {//-
+					addSubDone = true;
+					res += "-" + (int)numsAvailable.get(numIndex);
+					generatedRes -= numsAvailable.get(numIndex);
+					
+				}
+				else if (op == 2) {//*
+					if (addSubDone) {
+						res += "+" + (int)numsAvailable.get(numIndex);
+						generatedRes += numsAvailable.get(numIndex);
+					}
+					else 
+					{
+						res += "*" + (int)numsAvailable.get(numIndex);
+						generatedRes *= numsAvailable.get(numIndex);
+					}
+					
+				}
+				else if (op == 3) {// /
+					if (addSubDone || numVal == 0) 
+					{
+						res += "-" + (int)numsAvailable.get(numIndex);
+						generatedRes -= numsAvailable.get(numIndex);
+					}
+					else {
+						res += "/" + (int)numsAvailable.get(numIndex);
+						generatedRes /= numsAvailable.get(numIndex);
+					}
+					
+				}
+				/*if (res.contains(".0")) {
+					String backup = res;
+					try {
+						String[] res2 = res.split(".0");
+						if (res2.length > 0) 
+							res = res2[0] + res2[1];
+						else
+							System.out.println("WTF " + res);
+					}
+					catch (Exception ex) {
+						res = backup;
+					}
+				}*/
+	
+				numsAvailable.remove(numIndex);
+				if (generatedRes == wantedRes)
+					return "TRUE SOLUTION: " + res;
+				else {
+					double thisDiff = wantedRes - generatedRes;
+					if (thisDiff < 0 )
+						thisDiff = thisDiff*-1;
+					if (thisDiff < closestOne) {
+						closestOne = thisDiff;
+						closestString = res + " = " + generatedRes;
+					}
+				}
+			}
+		}
+		res = "closest solution: " + closestString;
 		return res;
 	}
 	
