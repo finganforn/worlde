@@ -674,13 +674,20 @@ public class MainFunc {
 		
 		double closestOne = 10000;
 		String closestString = "";
+		
+		int operationsDone = 0;
+		int fastestSolution = 10000;
+		String fastestRes = "";
+		double generatedRes = 0;
+		
 		for (int i = 0; i < 10000; i++) {
 			
-		
+			operationsDone = 0;
+			
 			ArrayList<Integer> numsAvailable = new ArrayList<Integer>();
 			for (int i2 : nums) numsAvailable.add(i2);
 			res = "";
-			double generatedRes = 0;
+			generatedRes = 0;
 			boolean addSubDone = false;
 			
 			Random rand = new Random();
@@ -695,6 +702,8 @@ public class MainFunc {
 				int op = rand.nextInt(4);
 				int numIndex = rand.nextInt(numsAvailable.size());
 				int numVal = numsAvailable.get(numIndex);
+				
+				operationsDone++;
 				
 				//numsAvailable.remove(numIndex);
 				
@@ -750,7 +759,9 @@ public class MainFunc {
 	
 				numsAvailable.remove(numIndex);
 				if (generatedRes == wantedRes)
+				{
 					return "TRUE SOLUTION: " + res;
+				}
 				else {
 					double thisDiff = wantedRes - generatedRes;
 					if (thisDiff < 0 )
