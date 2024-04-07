@@ -38,7 +38,7 @@ public class MainFunc {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		
+		/*
 		Random random = new Random();
 		int startP = random.nextInt(10000);
 		//startP = 1950;
@@ -50,7 +50,7 @@ public class MainFunc {
 			}
 			
 		}
-		
+		*/
 		
 		
 		//ArrayList<Integer> nums = new ArrayList<Integer>();
@@ -94,6 +94,7 @@ public class MainFunc {
 			while(sc.hasNext()){
 				
 	            String s = sc.next().toUpperCase();
+	         
 	            s = s.replace("Ã¥", "Å");
 	            s= s.replace("Ã¤", "Ä");
 	            s = s.replace("Ã¶", "Ö");
@@ -252,6 +253,7 @@ public class MainFunc {
 				
 				
 				String word = ordBox.getText().toUpperCase();
+				
 				String letters = letterBox.getText().toUpperCase();
 				String wildcards = wildCardBox.getText().toUpperCase();
 				String positions = positionBox.getText().toUpperCase();
