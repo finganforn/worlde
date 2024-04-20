@@ -75,6 +75,9 @@ public class MainFunc {
 		JPanel bottomPanel = new JPanel();
 		JLabel ord = new JLabel("Ord");
 		JTextField ordBox = new JTextField("         ");
+		
+		//ordBox.setText("");
+		
         JLabel letters = new JLabel("Bokstäver");
         JTextField letterBox = new JTextField("QWERTYUIOPÅASDFGHJKLÖÄZXCVBNM");
         JLabel position = new JLabel("WrongPlace");
@@ -263,9 +266,10 @@ public class MainFunc {
 						allowed.add(letters.charAt(i));
 				}
 
+				
 				String[] posSplit = positions.split(" ");
 
-				if (posSplit[0].length() > 1) {
+				if (posSplit.length > 0 && posSplit[0].length() > 1) {
 				for (int i = 0; i < posSplit.length; i++) {				
 						
 						String num = posSplit[i].substring(1);
@@ -334,64 +338,10 @@ public class MainFunc {
         });
 
 
-	ArrayList<Character> allowed = new ArrayList<Character>();
-	allowed.add('Q'); 
-	allowed.add('W');
-	//allowed.add('E'); 
-	//allowed.add('R');
-	//allowed.add('T');
-	allowed.add('Y');
-	allowed.add('U');
-	//allowed.add('I');
-	//allowed.add('O');
-	allowed.add('P');
-	//allowed.add('Å');
-	//allowed.add('A');
-	//allowed.add('S');
-	//allowed.add('D');
-	//allowed.add('F');
-	//allowed.add('G');
-	//allowed.add('H');
-	allowed.add('J');
-	//allowed.add('K');
-	//allowed.add('L');
-	//allowed.add('Ö');
-	//allowed.add('Ä');
-	allowed.add('Z');
-	allowed.add('X');
-	allowed.add('C');
-	allowed.add('V');
-	//allowed.add('B');
-	//allowed.add('N');
-	allowed.add('M');
-	ArrayList<Character> required = new ArrayList<Character>();
-	ArrayList<Integer> requiredNonIndices = new ArrayList<Integer>();
-	
-
-
-
-	required.add('U');
-	requiredNonIndices.add(2);
-
-	required.add('U');
-	requiredNonIndices.add(3);
-
-	required.add('N');
-	requiredNonIndices.add(4);
-
 
 	
 
 
-	String availableLetters = "";
-	String currentWord = "";
-	ArrayList<String> wrongPlacements = new ArrayList<String>();
-		
-	
-	//ArrayList<String> ordel = Wordle.ordel("   CH", allowed, required, (ArrayList<Integer>) requiredNonIndices);
-	
-	//for (int i = 0; i < ordel.size(); i++)
-		//System.out.println(ordel.get(i));
 	}
 	
 	private static int solutionsCount(String word, ArrayList<Character> allowedChars, ArrayList<Character> requiredChars, ArrayList<Character> wildcards) {
