@@ -258,7 +258,6 @@ public class MainFunc {
 				ArrayList<Character> allowed = new ArrayList<Character>();
 				ArrayList<Character> required = new ArrayList<Character>();
 				ArrayList<Integer> wrongPos = new ArrayList<Integer>();
-				ArrayList<Character> wildCards = new ArrayList<Character>();
 				//System.out.println(word + " " + letters + " " + positions);
 				for (int i = 0; i < letters.length(); i++)   {
 					char c = letters.charAt(i);
@@ -289,13 +288,40 @@ public class MainFunc {
 				}
 				
 				//avbryt om för många alternativ
-				int solutions = solutionsCount(word, allowed, required, wildCards);
+				int solutions = solutionsCount(word, allowed, required);
 				System.out.println(solutions + " possible words");
-				if (solutions > 300000)
+				int wayTooMany = 300000;
+				int somewhatTooMany = 30000;
+				if (solutions > wayTooMany)
+					JOptionPane.showMessageDialog(null, "too many solutions ("+ solutions + ")");	
+				else if (solutions > somewhatTooMany && required.size() < 1)
 					JOptionPane.showMessageDialog(null, "too many solutions ("+ solutions + ")");	
 				
 				else {
-					ArrayList<String> ordelRes = Wordle.ordel(word, allowed, required, wrongPos, wildCards);
+					
+					//TEST NEW SHIT
+					ArrayList<String> yellowGens = Wordle.generateQueryWords(word, required, wrongPos);					
+					//
+					
+					ArrayList<String> ordelRes = new ArrayList<String>();
+					if (solutions > somewhatTooMany) {
+						//pick one of the wrongpos
+						char wc = required.get(0);
+						int wp = wrongPos.get(0);
+						
+						ArrayList<String> altWords = new ArrayList<String>();
+						for (int i = 0; i < word.length(); i++) {
+							char[] ca = word.toCharArray();
+							if (i != wp && ca[i] == ' ') {
+								ca[i] = wc;
+								String tWord = new String(ca);
+								ArrayList<String> ordelRes2 = Wordle.ordel(tWord, allowed, required, wrongPos);
+							ordelRes.addAll(ordelRes2); }
+							
+						}
+					}
+					else 
+						ordelRes = Wordle.ordel(word, allowed, required, wrongPos);
 					
 					String allWords = "";
 					for (int i = 0; i < ordelRes.size(); i++) {
@@ -344,7 +370,7 @@ public class MainFunc {
 
 	}
 	
-	private static int solutionsCount(String word, ArrayList<Character> allowedChars, ArrayList<Character> requiredChars, ArrayList<Character> wildcards) {
+	private static int solutionsCount(String word, ArrayList<Character> allowedChars, ArrayList<Character> requiredChars) {
 		int empty = 0;
 		for (int i = 0; i < word.length(); i++) {
 			if (word.charAt(i) == ' ')
@@ -361,10 +387,7 @@ public class MainFunc {
 			if (!allLetters.contains(c))
 				allLetters.add(c);
 		}
-		for (Character c : wildcards) {
-			if (!allLetters.contains(c))
-				allLetters.add(c);
-		}
+		
 		
 		
 		int solutions = (int) Math.pow(allowedChars.size(), empty);

@@ -8,16 +8,13 @@ public class Wordle {
 	
 
 
-public static ArrayList<String> ordel(String word, ArrayList<Character> allowed, ArrayList<Character> required, ArrayList<Integer> indices, ArrayList<Character> wildCards) {
+public static ArrayList<String> ordel(String word, ArrayList<Character> allowed, ArrayList<Character> required, ArrayList<Integer> indices) {
 		
 		for (int i = 0; i < required.size(); i++) {
 			if (!allowed.contains(required.get(i)))
 				allowed.add(required.get(i));
 		}
-		for (int i = 0; i < wildCards.size(); i++) {
-			if (!allowed.contains(wildCards.get(i)))
-				allowed.add(wildCards.get(i));
-		}
+		
 		for(int i = 0; i<word.length(); i++) {
 
 		      // access each character
@@ -32,22 +29,9 @@ public static ArrayList<String> ordel(String word, ArrayList<Character> allowed,
 		
 		
 		
-		ArrayList<String> allStrings0 = ordel2(word, allowed, wildCards);
+		ArrayList<String> allStrings0 = ordel2(word, allowed);
 		ArrayList<String> allStrings = new ArrayList<String>();
-		if (wildCards.size() > 0) {
-			for (int i = 0; i < allStrings0.size(); i++) {
-				boolean includeThis = true;
-				for (int j = 0; j < wildCards.size(); j++) {
-					CharSequence s2 = "" + wildCards.get(j);
-					if (!allStrings0.get(i).contains(s2))
-						includeThis = false;
-				}
-				if (includeThis)
-					allStrings.add(allStrings0.get(i));
-			}
-				
-		}
-		else
+		
 			allStrings = allStrings0;
 		
 		
@@ -55,8 +39,7 @@ public static ArrayList<String> ordel(String word, ArrayList<Character> allowed,
 		for (int i = 0; i < allStrings.size(); i++) {
 			generated++;
 			String s = allStrings.get(i);
-			if (s.equals("ERASE"))
-				System.out.println("BOY!");
+			
 			
 			
 			if (required.size() < 1) {
@@ -75,8 +58,7 @@ public static ArrayList<String> ordel(String word, ArrayList<Character> allowed,
 				
 				try {
 				//MainFunc.rawPrint("compare " + s.charAt(indices.get(0)) + required.get(0));
-					if (s.equals("CATTY"))
-						System.out.println("CATTT");
+					
 					if (s.charAt(indices.get(0)) == required.get(0)) 
 						containsKeyLetters = false;
 					
@@ -142,7 +124,7 @@ public static ArrayList<String> ordel(String word, ArrayList<Character> allowed,
 		return res;
 	
 	}
-public static ArrayList<String> ordel2(String word, ArrayList<Character> allowed, ArrayList<Character> wildCards) {
+public static ArrayList<String> ordel2(String word, ArrayList<Character> allowed) {
 	ArrayList<String> res = new ArrayList<String>();
 	ArrayList<String> res2  = new ArrayList<String>();
 	
@@ -269,6 +251,44 @@ public static ArrayList<String> ordel2(String word, ArrayList<Character> allowed
 				 )
 			 return false;
 		 return true;
+	 }
+	 
+	 public static ArrayList<String> generateQueryWords (String word, ArrayList<Character> required, ArrayList<Integer> indices) {
+		 
+		 
+		 ArrayList<String> res = new ArrayList<String>();
+		 ArrayList<Character> remainingWrongs = new ArrayList<Character>();
+		 ArrayList<Integer> remainingWrongPos = new ArrayList<Integer>();
+		 remainingWrongs.addAll(required);
+		 res.add(word);
+		 remainingWrongPos.addAll(indices);
+		 
+			while (remainingWrongs.size() > 0) {
+				ArrayList<String> thisGen = new ArrayList<String>();
+				
+				for (String s : res) {
+					if (remainingWrongs.size() == 0)
+						break;
+					char wc = remainingWrongs.get(0);
+					int wp = remainingWrongPos.get(0);
+					remainingWrongs.remove(0);
+					remainingWrongPos.remove(0);
+					
+					
+					for (int i = 0; i < s.length(); i++) {
+						char[] ca = s.toCharArray();
+						if (i != wp && ca[i] == ' ') {
+							ca[i] = wc;
+							String tWord = new String(ca);
+							thisGen.add(tWord); }
+						
+					}
+					res = thisGen;
+				}
+			}
+				//pick one of the wrongpos
+					
+			return res;
 	 }
 	
 }
