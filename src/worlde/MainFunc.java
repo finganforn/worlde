@@ -74,13 +74,11 @@ public class MainFunc {
 		JPanel midPanel = new JPanel();
 		JPanel bottomPanel = new JPanel();
 		JLabel ord = new JLabel("Ord");
-		JTextField ordBox = new JTextField("ENIGA");
+		JTextField ordBox = new JTextField("         ");
         JLabel letters = new JLabel("Bokstäver");
         JTextField letterBox = new JTextField("QWERTYUIOPÅASDFGHJKLÖÄZXCVBNM");
         JLabel position = new JLabel("WrongPlace");
-        JTextField positionBox = new JTextField("DELETE");
-        JLabel wildCardLabel = new JLabel("somewhere");
-        JTextField wildCardBox = new JTextField("DELETE");
+        JTextField positionBox = new JTextField("            ");
         
         JCheckBox englishBox = new JCheckBox("engelska");
         
@@ -169,8 +167,6 @@ public class MainFunc {
         topPanel.add(ordBox);
         topPanel.add(position);
         topPanel.add(positionBox);
-        topPanel.add(wildCardLabel);
-        topPanel.add(wildCardBox);
         midPanel.add(letters);
         midPanel.add(letterBox);
         midPanel.add(englishBox);
@@ -255,7 +251,6 @@ public class MainFunc {
 				String word = ordBox.getText().toUpperCase();
 				
 				String letters = letterBox.getText().toUpperCase();
-				String wildcards = wildCardBox.getText().toUpperCase();
 				String positions = positionBox.getText().toUpperCase();
 				ArrayList<Character> allowed = new ArrayList<Character>();
 				ArrayList<Character> required = new ArrayList<Character>();
@@ -267,12 +262,7 @@ public class MainFunc {
 					if (Character.isLetter(c))
 						allowed.add(letters.charAt(i));
 				}
-				for (int i = 0; i < wildcards.length(); i++) {
-					char c = wildcards.charAt(i);
-					if (Character.isLetter(c))
-						wildCards.add(wildcards.charAt(i));
-						
-				}
+
 				String[] posSplit = positions.split(" ");
 
 				if (posSplit[0].length() > 1) {
