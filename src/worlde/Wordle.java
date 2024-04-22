@@ -255,40 +255,57 @@ public static ArrayList<String> ordel2(String word, ArrayList<Character> allowed
 	 
 	 public static ArrayList<String> generateQueryWords (String word, ArrayList<Character> required, ArrayList<Integer> indices) {
 		 
+		 //TODO
 		 
-		 ArrayList<String> res = new ArrayList<String>();
+		 //MULTI YELLOWS
+		 //
+		 ArrayList<ArrayList<String>> res = new ArrayList<ArrayList<String>>();
+		 res.add(new ArrayList<String>());
 		 ArrayList<Character> remainingWrongs = new ArrayList<Character>();
 		 ArrayList<Integer> remainingWrongPos = new ArrayList<Integer>();
 		 remainingWrongs.addAll(required);
-		 res.add(word);
+		 res.get(0).add(word);
 		 remainingWrongPos.addAll(indices);
+		 int depth = 0;
 		 
 			while (remainingWrongs.size() > 0) {
 				ArrayList<String> thisGen = new ArrayList<String>();
-				
-				for (String s : res) {
+				res.add(new ArrayList<String>());
+				for (String s : res.get(depth)) {
 					if (remainingWrongs.size() == 0)
 						break;
 					char wc = remainingWrongs.get(0);
 					int wp = remainingWrongPos.get(0);
-					remainingWrongs.remove(0);
-					remainingWrongPos.remove(0);
+					//remainingWrongs.remove(0);
+					//remainingWrongPos.remove(0);
 					
 					
 					for (int i = 0; i < s.length(); i++) {
 						char[] ca = s.toCharArray();
-						if (i != wp && ca[i] == ' ') {
+						if (i != wp && ca[i] == ' ' && s.toUpperCase().indexOf(wc) == -1) {
 							ca[i] = wc;
 							String tWord = new String(ca);
 							thisGen.add(tWord); }
 						
 					}
-					res = thisGen;
+					for (String s2 : thisGen) {
+						if (!res.get(res.size()-1).contains(s2))
+							res.get(res.size()-1).add(s2);
+					}
+					
 				}
+				if (res.get(res.size()-1).size() == 0)
+					res.get(res.size()-1).addAll(res.get(res.size()-2));
+				depth++;
+				//
+				remainingWrongs.remove(0);
+				//
+				remainingWrongPos.remove(0);
+				
 			}
 				//pick one of the wrongpos
 					
-			return res;
+			return res.get(res.size()-1);
 	 }
 	
 }

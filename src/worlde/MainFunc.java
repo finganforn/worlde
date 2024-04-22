@@ -290,23 +290,32 @@ public class MainFunc {
 				//avbryt om för många alternativ
 				int solutions = solutionsCount(word, allowed, required);
 				System.out.println(solutions + " possible words");
-				int wayTooMany = 300000;
-				int somewhatTooMany = 30000;
+				int wayTooMany = 3000000;
+				int somewhatTooMany = 300000;
+				int fewTooMany = 30000;
+				//update numbers when solution uses new wordList version!
 				if (solutions > wayTooMany)
 					JOptionPane.showMessageDialog(null, "too many solutions ("+ solutions + ")");	
 				else if (solutions > somewhatTooMany && required.size() < 1)
 					JOptionPane.showMessageDialog(null, "too many solutions ("+ solutions + ")");	
+				else if (solutions > fewTooMany && required.size() < 2)
+					JOptionPane.showMessageDialog(null, "too many solutions ("+ solutions + ")");	
 				
 				else {
 					
-					//TEST NEW SHIT
-					ArrayList<String> yellowGens = Wordle.generateQueryWords(word, required, wrongPos);					
+					//FLAWED FUNCTION
+					//ArrayList<String> yellowGens = Wordle.generateQueryWords(word, required, wrongPos);					
 					//
 					
 					ArrayList<String> ordelRes = new ArrayList<String>();
-					if (solutions > somewhatTooMany) {
+					//if (solutions > somewhatTooMany) {
+					if (solutions > 5) { //wgatever
+						
+						//JOptionPane.showMessageDialog(null, "experimental func!");	
+						
+						
 						//pick one of the wrongpos
-						char wc = required.get(0);
+						/*char wc = required.get(0);
 						int wp = wrongPos.get(0);
 						
 						ArrayList<String> altWords = new ArrayList<String>();
@@ -318,7 +327,10 @@ public class MainFunc {
 								ArrayList<String> ordelRes2 = Wordle.ordel(tWord, allowed, required, wrongPos);
 							ordelRes.addAll(ordelRes2); }
 							
-						}
+						}*/
+						ArrayList<String> yellowGens = Wordle.generateQueryWords(word, required, wrongPos);	
+						for (String s2 : yellowGens)
+							ordelRes.addAll(Wordle.ordel(s2, allowed, required, wrongPos));
 					}
 					else 
 						ordelRes = Wordle.ordel(word, allowed, required, wrongPos);
