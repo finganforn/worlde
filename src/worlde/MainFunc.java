@@ -290,15 +290,18 @@ public class MainFunc {
 				//avbryt om för många alternativ
 				int solutions = solutionsCount(word, allowed, required);
 				System.out.println(solutions + " possible words");
-				int wayTooMany = 3000000;
-				int somewhatTooMany = 300000;
-				int fewTooMany = 30000;
+				int superWayTooMany = 300000000;
+				int wayTooMany = 30000000;
+				int somewhatTooMany = 3000000;
+				int fewTooMany = 300000;
 				//update numbers when solution uses new wordList version!
-				if (solutions > wayTooMany)
+				if (solutions > superWayTooMany)
 					JOptionPane.showMessageDialog(null, "too many solutions ("+ solutions + ")");	
-				else if (solutions > somewhatTooMany && required.size() < 1)
+				else if (solutions > wayTooMany && required.size() < 1)
+					JOptionPane.showMessageDialog(null, "too many solutions ("+ solutions + ")");
+				else if (solutions > somewhatTooMany && required.size() < 2)
 					JOptionPane.showMessageDialog(null, "too many solutions ("+ solutions + ")");	
-				else if (solutions > fewTooMany && required.size() < 2)
+				else if (solutions > fewTooMany && required.size() < 3)
 					JOptionPane.showMessageDialog(null, "too many solutions ("+ solutions + ")");	
 				
 				else {
