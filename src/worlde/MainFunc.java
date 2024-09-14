@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
@@ -26,14 +27,16 @@ public class MainFunc {
 	
 	//USDFHJ v1 n2 t5 e1 teven
 	
-	static String swedishAlphabet = "QWERTYUIOPÅASDFGHJKLÖÄZXCVBNM";
+	static String swedishAlphabet = "QWERTYUIOPÃ…ASDFGHJKLÃ–Ã„ZXCVBNM";
 	static String englishAlphabet = "QWERTYUIOPASDFGHJKLZXCVBNM";
-	static String swedishShortcut = "QWRUSDFHJÄZXCB";
+	static String swedishShortcut = "QWRUSDFHJÃ–Ã„ZXCB";
 	static String englishShortcut = "QWYFGHJKZXV build";
-	static String ordlig = "QWYFHJKÖÄZXCVM påbud";
-	static String ordlig6 = "QWYÅDHÖZXVB";
+	static String ordlig = "QWYFHJKÃ–Ã„ZXCVM pÃ¥bud";
+	static String ordlig6 = "QWYÃ…DHÃ–ZXVB";
 	static String swedishFile = "doesnt matter";
 	static String englishFile = "doesnt matter";
+	static int limitSec;
+	
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -57,7 +60,7 @@ public class MainFunc {
 		//nums.add(15); nums.add(6); nums.add(7); nums.add(4); nums.add(2);
 		//operationsGame(nums, 59);
 		
-		
+		limitSec = 5;
 		
 		File directory = new File("./");
 		String fileP = directory.getAbsolutePath();
@@ -78,10 +81,12 @@ public class MainFunc {
 		
 		//ordBox.setText("");
 		
-        JLabel letters = new JLabel("Bokstäver");
-        JTextField letterBox = new JTextField("QWERTYUIOPÅASDFGHJKLÖÄZXCVBNM");
+        JLabel letters = new JLabel("Bokstï¿½ver");
+        JTextField letterBox = new JTextField("QWERTYUIOPï¿½ASDFGHJKLï¿½ï¿½ZXCVBNM");
         JLabel position = new JLabel("WrongPlace");
         JTextField positionBox = new JTextField("            ");
+        JLabel secondsLimitText = new JLabel("Sekunder tilllÃ¥tna");
+        JTextField secondsLimitBox = new JTextField("    ");
         
         JCheckBox englishBox = new JCheckBox("engelska");
         
@@ -96,9 +101,9 @@ public class MainFunc {
 				
 	            String s = sc.next().toUpperCase();
 	         
-	            s = s.replace("Ã¥", "Å");
-	            s= s.replace("Ã¤", "Ä");
-	            s = s.replace("Ã¶", "Ö");
+	            s = s.replace("Ã¥", "ï¿½");
+	            s= s.replace("Ã¤", "ï¿½");
+	            s = s.replace("Ã¶", "ï¿½");
 	            if (s.length() == 6)
 	            	swedishWords6.add(s);
 	            if (s.length() == 5) {
@@ -159,7 +164,7 @@ public class MainFunc {
 
 
         JButton send = new JButton("Generera ord");
-        JButton reset = new JButton("Återställ alfabet");
+        JButton reset = new JButton("ï¿½terstï¿½ll alfabet");
         JButton shortReset = new JButton("litet alfabet");
         //JButton semantle = new JButton("sem");
         JButton ordiligKnapp = new JButton("lig5");
@@ -170,6 +175,8 @@ public class MainFunc {
         topPanel.add(ordBox);
         topPanel.add(position);
         topPanel.add(positionBox);
+        topPanel.add(secondsLimitText);
+        topPanel.add(secondsLimitBox);
         midPanel.add(letters);
         midPanel.add(letterBox);
         midPanel.add(englishBox);
@@ -248,9 +255,19 @@ public class MainFunc {
         send.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				boolean ranOutOfTime = false;
+				String limitSecStr = secondsLimitBox.getText();
+				try {
+					limitSec = Integer.parseInt(limitSecStr);
+				}
+				catch (NumberFormatException ex) {
+					System.out.println(ex.getMessage());
+				}
 				
-				
-				
+				catch (Exception ex) {
+					System.out.println(ex.getMessage());
+				}
+				LocalTime now = LocalTime.now();
 				String word = ordBox.getText().toUpperCase();
 				
 				String letters = letterBox.getText().toUpperCase();
@@ -272,6 +289,7 @@ public class MainFunc {
 				for (int i = 0; i < posSplit.length; i++) {				
 						
 						String num = posSplit[i].substring(1);
+						num = num.replaceAll( "[^\\d]", "" );
 						try {
 						int iNum = Integer.parseInt(num);
 						char let = posSplit[i].charAt(0);
@@ -287,7 +305,7 @@ public class MainFunc {
 					}
 				}
 				
-				//avbryt om för många alternativ
+				//avbryt om fï¿½r mï¿½nga alternativ
 				int solutions = solutionsCount(word, allowed, required);
 				System.out.println(solutions + " possible words");
 				int superWayTooMany = 300000000;
@@ -331,6 +349,9 @@ public class MainFunc {
 							ordelRes.addAll(ordelRes2); }
 							
 						}*/
+						
+						
+						//TODO TIMER FÃ–R DENNA FUNKTIONEN
 						ArrayList<String> yellowGens = Wordle.generateQueryWords(word, required, wrongPos);	
 						for (String s2 : yellowGens)
 							ordelRes.addAll(Wordle.ordel(s2, allowed, required, wrongPos));
@@ -363,10 +384,33 @@ public class MainFunc {
 								}
 							}
 						}
+						LocalTime now3 = LocalTime.now();
+						LocalTime now3diff = now.plusSeconds(limitSec);
+						if (now3diff.compareTo(now3) < 0) {
+							System.out.println("search took longer than " + limitSec);
+							ranOutOfTime = true;
+							break;
+						}
+						
 						
 					
 					}
-					JOptionPane.showMessageDialog(null, allWords);	
+					LocalTime now2 = LocalTime.now();
+					LocalTime nowDiff = now.plusSeconds(limitSec);
+					
+					int timeRes = nowDiff.compareTo(now2);
+					String timeMess = "took ";
+					if (timeRes == -1)
+						timeMess = "MORE than " + limitSec + "seconds, ";
+					else if (timeRes == 0)
+						timeMess = "somehow equally " + limitSec + "seconds, ";
+					else if (timeRes == 1)
+						timeMess = "less than " + limitSec + "seconds, ";
+					else 
+						timeMess = "something weird happening: " + now + now2;
+					
+					JOptionPane.showMessageDialog(null, ranOutOfTime ? " overextended " + limitSec + " " + allWords : " cleared " + limitSec + " " +   " took " + timeMess + "s, " + allWords);	
+					
 				}
 				
 			}
