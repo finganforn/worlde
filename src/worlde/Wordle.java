@@ -1,5 +1,6 @@
 package worlde;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -253,7 +254,7 @@ public static ArrayList<String> ordel2(String word, ArrayList<Character> allowed
 		 return true;
 	 }
 	 
-	 public static ArrayList<String> generateQueryWords (String word, ArrayList<Character> required, ArrayList<Integer> indices) {
+	 public static ArrayList<String> generateQueryWords (String word, ArrayList<Character> required, ArrayList<Integer> indices, LocalTime orgTime, int limitSec) {
 		 
 		 //TODO
 		 
@@ -267,12 +268,15 @@ public static ArrayList<String> ordel2(String word, ArrayList<Character> allowed
 		 res.get(0).add(word);
 		 remainingWrongPos.addAll(indices);
 		 int depth = 0;
+		 boolean ranOutOfTime = false;
 		 
-			while (remainingWrongs.size() > 0) {
+			while (remainingWrongs.size() > 0 && !ranOutOfTime) {
 				ArrayList<String> thisGen = new ArrayList<String>();
 				res.add(new ArrayList<String>());
+				System.out.println(timePassed(orgTime) + "ms");
 				for (String s : res.get(depth)) {
-					if (remainingWrongs.size() == 0)
+					
+					if (remainingWrongs.size() == 0 || ranOutOfTime)
 						break;
 					char wc = remainingWrongs.get(0);
 					int wp = remainingWrongPos.get(0);
@@ -287,10 +291,14 @@ public static ArrayList<String> ordel2(String word, ArrayList<Character> allowed
 							String tWord = new String(ca);
 							thisGen.add(tWord); }
 						
+						
 					}
 					for (String s2 : thisGen) {
 						if (!res.get(res.size()-1).contains(s2))
 							res.get(res.size()-1).add(s2);
+						if (timedOut(orgTime, limitSec))
+							ranOutOfTime = true;
+						if (ranOutOfTime) break;
 					}
 					
 				}
@@ -301,11 +309,36 @@ public static ArrayList<String> ordel2(String word, ArrayList<Character> allowed
 				remainingWrongs.remove(0);
 				//
 				remainingWrongPos.remove(0);
+				if (timedOut(orgTime, limitSec))
+					ranOutOfTime = true;
 				
 			}
 				//pick one of the wrongpos
-					
+			System.out.println("yellowGens done at " + timePassed(orgTime) + "ms");
+			if (timedOut(orgTime, limitSec))
+				res.get(res.size()-1).add("");
 			return res.get(res.size()-1);
+	 }
+	 public static boolean timedOut(LocalTime orgTime, int seconds) {
+		LocalTime now = LocalTime.now();
+		LocalTime timediff = orgTime.plusSeconds(seconds);
+		if (timediff.compareTo(now) < 0) 
+			return true;
+		return false;
+	 }
+	 public static int timePassed(LocalTime orgTime) {
+		 LocalTime now = LocalTime.now();
+		 int mils = 0;
+		 while (orgTime.compareTo(now) < 0)
+		 {
+			 //now = now.minusNanos(100000000);
+			 //mils += 100;
+			 now = now.minusNanos(10000000);
+			 mils += 10;
+			 
+		 }
+		 
+		 return mils;
 	 }
 	
 }

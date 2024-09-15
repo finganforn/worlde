@@ -27,6 +27,8 @@ public class MainFunc {
 	
 	//USDFHJ v1 n2 t5 e1 teven
 	
+	//QWYFK�ZXCVM  e3 r1 e4 r5 hittade ej maerke!
+	
 	static String swedishAlphabet = "QWERTYUIOPÅASDFGHJKLÖÄZXCVBNM";
 	static String englishAlphabet = "QWERTYUIOPASDFGHJKLZXCVBNM";
 	static String swedishShortcut = "QWRUSDFHJÖÄZXCB";
@@ -60,7 +62,7 @@ public class MainFunc {
 		//nums.add(15); nums.add(6); nums.add(7); nums.add(4); nums.add(2);
 		//operationsGame(nums, 59);
 		
-		limitSec = 5;
+		limitSec = 4;
 		
 		File directory = new File("./");
 		String fileP = directory.getAbsolutePath();
@@ -352,10 +354,18 @@ public class MainFunc {
 						
 						
 						//TODO TIMER FÖR DENNA FUNKTIONEN
-						ArrayList<String> yellowGens = Wordle.generateQueryWords(word, required, wrongPos);	
+						
+						ArrayList<String> yellowGens = Wordle.generateQueryWords(word, required, wrongPos, now, (int) (limitSec*0.75));
+						if (yellowGens.get(yellowGens.size()-1).equals("")) {
+						
+							System.out.println("generator1 timed out");
+							yellowGens.remove(yellowGens.size()-1);
+							
+						}
 						for (String s2 : yellowGens)
 							ordelRes.addAll(Wordle.ordel(s2, allowed, required, wrongPos));
-					}
+						System.out.println("ordelRes done at " + Wordle.timePassed(now) + "ms");
+					}	
 					else 
 						ordelRes = Wordle.ordel(word, allowed, required, wrongPos);
 					
@@ -395,22 +405,10 @@ public class MainFunc {
 						
 					
 					}
-					LocalTime now2 = LocalTime.now();
-					LocalTime nowDiff = now.plusSeconds(limitSec);
 					
-					int timeRes = nowDiff.compareTo(now2);
-					String timeMess = "took ";
-					if (timeRes == -1)
-						timeMess = "MORE than " + limitSec + "seconds, ";
-					else if (timeRes == 0)
-						timeMess = "somehow equally " + limitSec + "seconds, ";
-					else if (timeRes == 1)
-						timeMess = "less than " + limitSec + "seconds, ";
-					else 
-						timeMess = "something weird happening: " + now + now2;
-					
-					JOptionPane.showMessageDialog(null, ranOutOfTime ? " overextended " + limitSec + " " + allWords : " cleared " + limitSec + " " +   " took " + timeMess + "s, " + allWords);	
-					
+					String message = "" + Wordle.timePassed(now) + "ms "; 
+					JOptionPane.showMessageDialog(null, message + allWords);	
+					System.out.println(Wordle.timePassed(now));
 				}
 				
 			}
