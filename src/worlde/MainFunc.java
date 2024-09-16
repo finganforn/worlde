@@ -27,7 +27,7 @@ public class MainFunc {
 	
 	//USDFHJ v1 n2 t5 e1 teven
 	
-	//QWYFK�ZXCVM  e3 r1 e4 r5 hittade ej maerke!
+	//QWYFK�ZXCVM  e3 r1 e4 r5 hittade ej maerke!
 	
 	static String swedishAlphabet = "QWERTYUIOPÅASDFGHJKLÖÄZXCVBNM";
 	static String englishAlphabet = "QWERTYUIOPASDFGHJKLZXCVBNM";
@@ -262,9 +262,7 @@ public class MainFunc {
 				try {
 					limitSec = Integer.parseInt(limitSecStr);
 				}
-				catch (NumberFormatException ex) {
-					System.out.println(ex.getMessage());
-				}
+				
 				
 				catch (Exception ex) {
 					System.out.println(ex.getMessage());
@@ -310,10 +308,10 @@ public class MainFunc {
 				//avbryt om f�r m�nga alternativ
 				int solutions = solutionsCount(word, allowed, required);
 				System.out.println(solutions + " possible words");
-				int superWayTooMany = 300000000;
-				int wayTooMany = 30000000;
-				int somewhatTooMany = 3000000;
-				int fewTooMany = 300000;
+				int superWayTooMany = 2000000000;
+				int wayTooMany = 300000000;
+				int somewhatTooMany = 30000000;
+				int fewTooMany = 3000000;
 				//update numbers when solution uses new wordList version!
 				if (solutions > superWayTooMany)
 					JOptionPane.showMessageDialog(null, "too many solutions ("+ solutions + ")");	
@@ -394,19 +392,15 @@ public class MainFunc {
 								}
 							}
 						}
-						LocalTime now3 = LocalTime.now();
-						LocalTime now3diff = now.plusSeconds(limitSec);
-						if (now3diff.compareTo(now3) < 0) {
-							System.out.println("search took longer than " + limitSec);
-							ranOutOfTime = true;
-							break;
-						}
+						
 						
 						
 					
 					}
 					
-					String message = "" + Wordle.timePassed(now) + "ms "; 
+					int timeMs = Wordle.timePassed(now);
+					String message = "" + timeMs + "ms " + (timeMs/1000 > limitSec ? "TOO LONG" : "");
+					
 					JOptionPane.showMessageDialog(null, message + allWords);	
 					System.out.println(Wordle.timePassed(now));
 				}

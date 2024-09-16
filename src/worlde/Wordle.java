@@ -240,12 +240,12 @@ public static ArrayList<String> ordel2(String word, ArrayList<Character> allowed
 				 a == 'o' ||
 				 a == 'U' ||
 				 a == 'u' ||
-				 a == 'Å' ||
-				 a == 'å' ||
-				 a == 'Ä' ||
-				 a == 'ä' ||
-				 a == 'Ö' ||
-				 a == 'ö' ||
+				 a == 'Ã¥' ||
+				 a == 'Ã…' ||
+				 a == 'Ã¤' ||
+				 a == 'Ã„' ||
+				 a == 'Ã¶' ||
+				 a == 'Ã–' ||
 				 a == 'Y' ||
 				 a == 'y'
 				 
@@ -296,7 +296,7 @@ public static ArrayList<String> ordel2(String word, ArrayList<Character> allowed
 					for (String s2 : thisGen) {
 						if (!res.get(res.size()-1).contains(s2))
 							res.get(res.size()-1).add(s2);
-						if (timedOut(orgTime, limitSec))
+						if (timePassed(orgTime) < limitSec*0.75)
 							ranOutOfTime = true;
 						if (ranOutOfTime) break;
 					}
@@ -309,23 +309,18 @@ public static ArrayList<String> ordel2(String word, ArrayList<Character> allowed
 				remainingWrongs.remove(0);
 				//
 				remainingWrongPos.remove(0);
-				if (timedOut(orgTime, limitSec))
+				int timeP = timePassed(orgTime)/1000;
+				if (timeP > limitSec)
 					ranOutOfTime = true;
 				
 			}
 				//pick one of the wrongpos
 			System.out.println("yellowGens done at " + timePassed(orgTime) + "ms");
-			if (timedOut(orgTime, limitSec))
+			if (ranOutOfTime)
 				res.get(res.size()-1).add("");
 			return res.get(res.size()-1);
 	 }
-	 public static boolean timedOut(LocalTime orgTime, int seconds) {
-		LocalTime now = LocalTime.now();
-		LocalTime timediff = orgTime.plusSeconds(seconds);
-		if (timediff.compareTo(now) < 0) 
-			return true;
-		return false;
-	 }
+
 	 public static int timePassed(LocalTime orgTime) {
 		 LocalTime now = LocalTime.now();
 		 int mils = 0;
