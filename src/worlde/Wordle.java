@@ -9,8 +9,8 @@ public class Wordle {
 	
 
 
-public static ArrayList<String> ordel(String word, ArrayList<Character> allowed, ArrayList<Character> required, ArrayList<Integer> indices) {
-		
+public static ArrayList<String> ordel(String word, ArrayList<Character> allowed, ArrayList<Character> required, ArrayList<Integer> indices, LocalTime orgTime, int limitSec) {
+		boolean timeRanOut = false;
 		for (int i = 0; i < required.size(); i++) {
 			if (!allowed.contains(required.get(i)))
 				allowed.add(required.get(i));
@@ -30,15 +30,17 @@ public static ArrayList<String> ordel(String word, ArrayList<Character> allowed,
 		
 		
 		
-		ArrayList<String> allStrings0 = ordel2(word, allowed);
+		ArrayList<String> allStrings0 = ordel2(word, allowed, orgTime, limitSec);
 		ArrayList<String> allStrings = new ArrayList<String>();
 		
 			allStrings = allStrings0;
 		
 		
 		int generated = 0;
-		for (int i = 0; i < allStrings.size(); i++) {
+		for (int i = 0; i < allStrings.size() && !timeRanOut; i++) {
 			generated++;
+			if (timePassed(orgTime) > limitSec*1000*0.5)
+				timeRanOut = true;
 			String s = allStrings.get(i);
 			
 			
@@ -125,14 +127,21 @@ public static ArrayList<String> ordel(String word, ArrayList<Character> allowed,
 		return res;
 	
 	}
-public static ArrayList<String> ordel2(String word, ArrayList<Character> allowed) {
+public static ArrayList<String> ordel2(String word, ArrayList<Character> allowed, LocalTime orgTime, int limitSec) {
 	ArrayList<String> res = new ArrayList<String>();
 	ArrayList<String> res2  = new ArrayList<String>();
 	
+	boolean timeRanOut = false;
+	if (timePassed(orgTime) > limitSec*1000*0.75) {
+		timeRanOut = true;
+		return res;
+	}
 	int empty = 0;
-	for (int i = 0; i < word.length(); i++) {
+	for (int i = 0; i < word.length() && !timeRanOut; i++) {
 		if (word.charAt(i) == ' ')
 			empty++;
+		if (timePassed(orgTime) > limitSec*1000*0.75)
+			timeRanOut = true;
 	}
 	
 	
@@ -184,6 +193,7 @@ public static ArrayList<String> ordel2(String word, ArrayList<Character> allowed
 	
 	return res;
 	}
+
 	private static boolean noSpace(ArrayList<String> l) {
 		return l.get(0).indexOf(" ") == -1;
 	}
@@ -269,58 +279,77 @@ public static ArrayList<String> ordel2(String word, ArrayList<Character> allowed
 		 remainingWrongPos.addAll(indices);
 		 int depth = 0;
 		 boolean ranOutOfTime = false;
+		 //System.out.println("stamp1 " + timePassed(orgTime) + "ms");
 		 
-			while (remainingWrongs.size() > 0 && !ranOutOfTime) {
-				ArrayList<String> thisGen = new ArrayList<String>();
-				res.add(new ArrayList<String>());
-				System.out.println(timePassed(orgTime) + "ms");
-				for (String s : res.get(depth)) {
-					
-					if (remainingWrongs.size() == 0 || ranOutOfTime)
-						break;
-					char wc = remainingWrongs.get(0);
-					int wp = remainingWrongPos.get(0);
-					//remainingWrongs.remove(0);
-					//remainingWrongPos.remove(0);
-					
-					
-					for (int i = 0; i < s.length(); i++) {
-						char[] ca = s.toCharArray();
-						if (i != wp && ca[i] == ' ' && s.toUpperCase().indexOf(wc) == -1) {
-							ca[i] = wc;
-							String tWord = new String(ca);
-							thisGen.add(tWord); }
-						
-						
-					}
-					for (String s2 : thisGen) {
-						if (!res.get(res.size()-1).contains(s2))
-							res.get(res.size()-1).add(s2);
-						if (timePassed(orgTime) < limitSec*0.75)
-							ranOutOfTime = true;
-						if (ranOutOfTime) break;
-					}
-					
+		 while (remainingWrongs.size() > 0 && !ranOutOfTime) {
+			ArrayList<String> thisGen = new ArrayList<String>();
+			res.add(new ArrayList<String>());
+			//System.out.println("stamp2 " + timePassed(orgTime) + "ms");
+			for (String s : res.get(depth)) {
+				if (remainingWrongs.size() == 0 || ranOutOfTime) {
+					//System.out.println("stamp3 " + timePassed(orgTime) + "ms");
+					break;
 				}
-				if (res.get(res.size()-1).size() == 0)
-					res.get(res.size()-1).addAll(res.get(res.size()-2));
-				depth++;
-				//
-				remainingWrongs.remove(0);
-				//
-				remainingWrongPos.remove(0);
-				int timeP = timePassed(orgTime)/1000;
-				if (timeP > limitSec)
-					ranOutOfTime = true;
+				char wc = remainingWrongs.get(0);
+				int wp = remainingWrongPos.get(0);
+				//remainingWrongs.remove(0);
+				//remainingWrongPos.remove(0);
+				//System.out.println("stamp4 " + timePassed(orgTime) + "ms");
 				
+					
+				for (int i = 0; i < s.length(); i++) {
+					//System.out.println("stamp5 " + timePassed(orgTime) + "ms");
+					char[] ca = s.toCharArray();
+					if (i != wp && ca[i] == ' ' && s.toUpperCase().indexOf(wc) == -1) {
+						//System.out.println("stamp6 " + timePassed(orgTime) + "ms");
+						ca[i] = wc;
+						String tWord = new String(ca);
+						thisGen.add(tWord); }
+						
+						
+				}
+				//System.out.println("stamp7 " + timePassed(orgTime) + "ms");
+				for (String s2 : thisGen) {
+					//System.out.println("stamp8 " + timePassed(orgTime) + "ms");
+					if (!res.get(res.size()-1).contains(s2))
+						res.get(res.size()-1).add(s2);
+					int timeP1 = timePassed(orgTime);
+					//System.out.println("stamp9 " + timePassed(orgTime) + "ms");
+					if (timeP1/1000 > limitSec*0.75)
+					{
+						//System.out.println("stamp10!!!! " + timePassed(orgTime) + "ms");
+						ranOutOfTime = true;
+					}
+					if (ranOutOfTime) {
+						//System.out.println("stamp11!!!! " + timePassed(orgTime) + "ms");
+						break;
+					}
+						
+				}
+					
 			}
-				//pick one of the wrongpos
-			System.out.println("yellowGens done at " + timePassed(orgTime) + "ms");
-			if (ranOutOfTime)
-				res.get(res.size()-1).add("");
-			return res.get(res.size()-1);
+			if (res.get(res.size()-1).size() == 0) {
+				res.get(res.size()-1).addAll(res.get(res.size()-2));
+				//System.out.println("stamp12 " + timePassed(orgTime) + "ms");
+			
+			}depth++;
+			//
+			remainingWrongs.remove(0);
+			//System.out.println("stamp13 " + timePassed(orgTime) + "ms");
+			remainingWrongPos.remove(0);
+			int timeP = timePassed(orgTime)/1000;
+			if (timeP/1000 > limitSec) {
+				ranOutOfTime = true;
+				//System.out.println("stamp14 " + timePassed(orgTime) + "ms");
+			}
+				
+		}
+			//pick one of the wrongpos
+		System.out.println("yellowGens done at " + timePassed(orgTime) + "ms");
+		if (ranOutOfTime)
+			res.get(res.size()-1).add("");
+		return res.get(res.size()-1);
 	 }
-
 	 public static int timePassed(LocalTime orgTime) {
 		 LocalTime now = LocalTime.now();
 		 int mils = 0;

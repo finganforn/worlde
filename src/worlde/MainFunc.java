@@ -256,7 +256,8 @@ public class MainFunc {
         
         send.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				System.out.println("----------------------START------------------------");
+				System.out.println("---------------------------------------------------");
 				boolean ranOutOfTime = false;
 				String limitSecStr = secondsLimitBox.getText();
 				try {
@@ -361,18 +362,18 @@ public class MainFunc {
 							
 						}
 						for (String s2 : yellowGens)
-							ordelRes.addAll(Wordle.ordel(s2, allowed, required, wrongPos));
+							ordelRes.addAll(Wordle.ordel(s2, allowed, required, wrongPos, now, limitSec));
 						System.out.println("ordelRes done at " + Wordle.timePassed(now) + "ms");
 					}	
 					else 
-						ordelRes = Wordle.ordel(word, allowed, required, wrongPos);
+						ordelRes = Wordle.ordel(word, allowed, required, wrongPos, now, limitSec);
 					
 					String allWords = "";
 					for (int i = 0; i < ordelRes.size(); i++) {
 						
 						if (englishBox.isSelected()) {
 							if (englishWords.contains(ordelRes.get(i))) {
-								System.out.println(ordelRes.get(i));
+								//System.out.println(ordelRes.get(i));
 								allWords += ordelRes.get(i) + " ";
 							}
 							
@@ -380,14 +381,14 @@ public class MainFunc {
 						else {
 							if (word.length() == 6) {
 								if (swedishWords6.contains(ordelRes.get(i))) {
-									System.out.println(ordelRes.get(i));
+									//System.out.println(ordelRes.get(i));
 									allWords += ordelRes.get(i) + " ";
 								}
 							}
 							else {
 							
 								if (swedishWords.contains(ordelRes.get(i))) {
-									System.out.println(ordelRes.get(i));
+									//System.out.println(ordelRes.get(i));
 									allWords += ordelRes.get(i) + " ";
 								}
 							}
@@ -399,10 +400,10 @@ public class MainFunc {
 					}
 					
 					int timeMs = Wordle.timePassed(now);
-					String message = "" + timeMs + "ms " + (timeMs/1000 > limitSec ? "TOO LONG" : "");
-					
+					String message = "" + timeMs + "ms " + (timeMs/1000 > limitSec ? "TOO LONG! " : "");
+					System.out.println("full func took " + Wordle.timePassed(now) + "ms");
 					JOptionPane.showMessageDialog(null, message + allWords);	
-					System.out.println(Wordle.timePassed(now));
+					
 				}
 				
 			}
