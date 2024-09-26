@@ -313,7 +313,8 @@ public class MainFunc {
 				int wayTooMany = 300000000;
 				int somewhatTooMany = 30000000;
 				int fewTooMany = 3000000;
-				//update numbers when solution uses new wordList version!
+				
+				if (false) {}/* 
 				if (solutions > superWayTooMany)
 					JOptionPane.showMessageDialog(null, "too many solutions ("+ solutions + ")");	
 				else if (solutions > wayTooMany && required.size() < 1)
@@ -322,7 +323,7 @@ public class MainFunc {
 					JOptionPane.showMessageDialog(null, "too many solutions ("+ solutions + ")");	
 				else if (solutions > fewTooMany && required.size() < 3)
 					JOptionPane.showMessageDialog(null, "too many solutions ("+ solutions + ")");	
-				
+				*/
 				else {
 					
 					//FLAWED FUNCTION
