@@ -42,7 +42,16 @@ public class MainFunc {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		boolean wackyLocalization = false;
 		
+		if (swedishAlphabet.contains("PÃ"))
+		{
+			wackyLocalization = true;
+			swedishAlphabet = "QWERTYUIOPÅASDFGHJKLÖÄZXCVBNM";
+			swedishShortcut = "QWRUSDFHJÖÄZXCB";
+			ordlig = "QWYFHJKÖÄZXCVM påbud";
+			ordlig6 = "QWYÅDHÖZXVB";
+		}
 		/*
 		Random random = new Random();
 		int startP = random.nextInt(10000);
@@ -102,10 +111,16 @@ public class MainFunc {
 			while(sc.hasNext()){
 				
 	            String s = sc.next().toUpperCase();
-	         
-	            s = s.replace("Ã¥", "ï¿½");
-	            s= s.replace("Ã¤", "ï¿½");
-	            s = s.replace("Ã¶", "ï¿½");
+	            if (!wackyLocalization) {
+		            s = s.replace("Ã¥", "ï¿½");
+		            s= s.replace("Ã¤", "ï¿½");
+		            s = s.replace("Ã¶", "ï¿½");
+	            }
+	            else {
+	            	s = s.replace("Ã¥", "Å");
+	            	s= s.replace("Ã¤", "Ä");
+	            	s = s.replace("Ã¶", "Ö");
+	            }
 	            if (s.length() == 6)
 	            	swedishWords6.add(s);
 	            if (s.length() == 5) {

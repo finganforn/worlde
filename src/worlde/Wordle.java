@@ -250,12 +250,12 @@ public static ArrayList<String> ordel2(String word, ArrayList<Character> allowed
 				 a == 'o' ||
 				 a == 'U' ||
 				 a == 'u' ||
-				 a == 'Ã¥' ||
-				 a == 'Ã…' ||
-				 a == 'Ã¤' ||
-				 a == 'Ã„' ||
-				 a == 'Ã¶' ||
-				 a == 'Ã–' ||
+				 a == 'å' ||
+				 a == 'ä' ||
+				 a == 'Ö' ||
+				 a == 'ä' ||
+				 a == 'Ã' ||
+				 a == 'å' ||
 				 a == 'Y' ||
 				 a == 'y'
 				 
