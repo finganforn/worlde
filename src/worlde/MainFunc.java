@@ -1,4 +1,4 @@
-package worlde;
+//package wordle;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -43,16 +43,16 @@ public class MainFunc {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		boolean wackyLocalization = false;
-		
-		if (swedishAlphabet.contains("PÃ"))
+		/*
+		if (swedishAlphabet.contains("P"))
 		{
 			wackyLocalization = true;
-			swedishAlphabet = "QWERTYUIOPÅASDFGHJKLÖÄZXCVBNM";
-			swedishShortcut = "QWRUSDFHJÖÄZXCB";
-			ordlig = "QWYFHJKÖÄZXCVM påbud";
-			ordlig6 = "QWYÅDHÖZXVB";
+			swedishAlphabet = "QWERTYUIOÃ…ASDFGHJKLÃ–Ã„ZXCVBNM";
+			swedishShortcut = "QWRUSDFHJÃ–Ã„ZXCB";
+			ordlig = "QWYFHJKÃ–Ã„ZXCVM pÃ¥bud";
+			ordlig6 = "QWYÃ…DHÃ–ZXVB";
 		}
-		/*
+		
 		Random random = new Random();
 		int startP = random.nextInt(10000);
 		//startP = 1950;
@@ -111,16 +111,7 @@ public class MainFunc {
 			while(sc.hasNext()){
 				
 	            String s = sc.next().toUpperCase();
-	            if (!wackyLocalization) {
-		            s = s.replace("Ã¥", "ï¿½");
-		            s= s.replace("Ã¤", "ï¿½");
-		            s = s.replace("Ã¶", "ï¿½");
-	            }
-	            else {
-	            	s = s.replace("Ã¥", "Å");
-	            	s= s.replace("Ã¤", "Ä");
-	            	s = s.replace("Ã¶", "Ö");
-	            }
+	            
 	            if (s.length() == 6)
 	            	swedishWords6.add(s);
 	            if (s.length() == 5) {
@@ -384,28 +375,30 @@ public class MainFunc {
 					else 
 						ordelRes = Wordle.ordel(word, allowed, required, wrongPos, now, limitSec);
 					
-					String allWords = "";
+					ArrayList<String> allWords = new ArrayList<String>();
 					for (int i = 0; i < ordelRes.size(); i++) {
 						
+										
+						String curr = ordelRes.get(i);
 						if (englishBox.isSelected()) {
-							if (englishWords.contains(ordelRes.get(i))) {
+							if (englishWords.contains(curr) && !allWords.contains(curr)) {
 								//System.out.println(ordelRes.get(i));
-								allWords += ordelRes.get(i) + " ";
+									allWords.add(curr);
 							}
 							
 						}
 						else {
 							if (word.length() == 6) {
-								if (swedishWords6.contains(ordelRes.get(i))) {
+								if (swedishWords6.contains(curr) && !allWords.contains(curr)) {
 									//System.out.println(ordelRes.get(i));
-									allWords += ordelRes.get(i) + " ";
+									allWords.add(curr);
 								}
 							}
 							else {
 							
-								if (swedishWords.contains(ordelRes.get(i))) {
+								if (swedishWords.contains(curr) && !allWords.contains(curr)) {
 									//System.out.println(ordelRes.get(i));
-									allWords += ordelRes.get(i) + " ";
+									allWords.add(curr);
 								}
 							}
 						}
@@ -414,11 +407,18 @@ public class MainFunc {
 						
 					
 					}
-					
 					int timeMs = Wordle.timePassed(now);
+					String resStr = "";
+					for (int i = 0; i < allWords.size(); i++) {
+							resStr += allWords.get(i) + " ";
+							if (i % 15 == 0 && i != 0)
+								resStr += "\n";
+							
+					}
+					
 					String message = "" + timeMs + "ms " + (timeMs/1000 > limitSec ? "TOO LONG! " : "");
 					System.out.println("full func took " + Wordle.timePassed(now) + "ms");
-					JOptionPane.showMessageDialog(null, message + allWords);	
+					JOptionPane.showMessageDialog(null, message+"\n"+ resStr);	
 					
 				}
 				

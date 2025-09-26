@@ -1,4 +1,4 @@
-package worlde;
+//package wordle;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -151,16 +151,20 @@ public static ArrayList<String> ordel2(String word, ArrayList<Character> allowed
 	//int ind = s.indexOf(" ");
 	//&& res.get(i).indexOf(" ") != -1
 	
+	//if (!res.contains(s))
+	
 	for (int i = 0; i < allowed.size(); i++) {
 		String s = word.replaceFirst(" ", allowed.get(i).toString());
-		res.add(s);
+		//if (!res.contains(s))
+			res.add(s);
 	}
 	if (noSpace(res))
 		return res;
 	for (int i = 0; i < res.size(); i++) {
 		for (int j = 0; j < letters; j++) {
 			String s = res.get(i).replaceFirst(" ", allowed.get(j).toString());
-			res2.add(s);
+			//if (!res2.contains(s))
+				res2.add(s);
 		}
 	}
 	if (noSpace(res2))
@@ -169,7 +173,8 @@ public static ArrayList<String> ordel2(String word, ArrayList<Character> allowed
 	for (int i = 0; i < res2.size(); i++) {
 		for (int j = 0; j < letters; j++) {
 			String s = res2.get(i).replaceFirst(" ", allowed.get(j).toString());
-			res.add(s);
+			//if (!res.contains(s))
+				res.add(s);
 		}
 	}
 	if (noSpace(res))
@@ -178,7 +183,8 @@ public static ArrayList<String> ordel2(String word, ArrayList<Character> allowed
 		for (int i = 0; i < res.size(); i++) {
 			for (int j = 0; j < letters; j++) {
 				String s = res.get(i).replaceFirst(" ", allowed.get(j).toString());
-				res2.add(s);
+				//if (!res2.contains(s))
+					res2.add(s);
 		}
 	}
 	if (noSpace(res2))
@@ -187,7 +193,8 @@ public static ArrayList<String> ordel2(String word, ArrayList<Character> allowed
 	for (int i = 0; i < res2.size() && res2.get(i).indexOf(" ") != -1; i++) {
 		for (int j = 0; j < letters; j++) {
 			String s = res2.get(i).replaceFirst(" ", allowed.get(j).toString());
-			res.add(s);
+			// if (!res.contains(s))
+				res.add(s);
 		}
 	}
 	
@@ -250,12 +257,6 @@ public static ArrayList<String> ordel2(String word, ArrayList<Character> allowed
 				 a == 'o' ||
 				 a == 'U' ||
 				 a == 'u' ||
-				 a == 'å' ||
-				 a == 'ä' ||
-				 a == 'Ö' ||
-				 a == 'ä' ||
-				 a == 'Ã' ||
-				 a == 'å' ||
 				 a == 'Y' ||
 				 a == 'y'
 				 
