@@ -1,4 +1,4 @@
-//package wordle;
+package wordle;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -43,29 +43,7 @@ public class MainFunc {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		boolean wackyLocalization = false;
-		/*
-		if (swedishAlphabet.contains("P"))
-		{
-			wackyLocalization = true;
-			swedishAlphabet = "QWERTYUIOÅASDFGHJKLÖÄZXCVBNM";
-			swedishShortcut = "QWRUSDFHJÖÄZXCB";
-			ordlig = "QWYFHJKÖÄZXCVM påbud";
-			ordlig6 = "QWYÅDHÖZXVB";
-		}
-		
-		Random random = new Random();
-		int startP = random.nextInt(10000);
-		//startP = 1950;
-		for (int i = startP; i < startP+100; i++) {
-			Stack<Integer> st = fac(i);
-			String s2 = "" + i + " = " + st.get(0);
-			for (int j = 1; j < st.size(); j++) {
-				s2 = s2 + " * " + st.get(j);
-			}
-			
-		}
-		*/
-		
+
 		
 		//ArrayList<Integer> nums = new ArrayList<Integer>();
 		//nums.add(15); nums.add(6); nums.add(7); nums.add(4); nums.add(2);
@@ -73,12 +51,7 @@ public class MainFunc {
 		
 		limitSec = 4;
 		
-		File directory = new File("./");
-		String fileP = directory.getAbsolutePath();
-		fileP = fileP.substring(0, fileP.length()-1);
-		   //System.out.println(fileP);
-		swedishFile = fileP + "svenska-ord.txt";
-		englishFile = fileP + "english-words.txt";
+		
 		
 		JFrame frame = new JFrame("WordleCheater");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -92,8 +65,8 @@ public class MainFunc {
 		
 		//ordBox.setText("");
 		
-        JLabel letters = new JLabel("Bokst�ver");
-        JTextField letterBox = new JTextField("QWERTYUIOP�ASDFGHJKL��ZXCVBNM");
+        JLabel letters = new JLabel("Bokstäver");
+        JTextField letterBox = new JTextField("QWERTYUIOPÅASDFGHJKLÖÄZXCVBNM");
         JLabel position = new JLabel("WrongPlace");
         JTextField positionBox = new JTextField("            ");
         JLabel secondsLimitText = new JLabel("Sekunder tilllåtna");
@@ -101,78 +74,25 @@ public class MainFunc {
         
         JCheckBox englishBox = new JCheckBox("engelska");
         
-        ArrayList<String> swedishWords = new ArrayList<String>();
-        ArrayList<String> swedishWords6 = new ArrayList<String>();
-        ArrayList<String> englishWords = new ArrayList<String>();
-        ArrayList<String> ordligWords5 = new ArrayList<String>();
-        Scanner sc;
-        try {
-			sc = new Scanner(new File(swedishFile));
-			while(sc.hasNext()){
-				
-	            String s = sc.next().toUpperCase();
-	            
-	            if (s.length() == 6)
-	            	swedishWords6.add(s);
-	            if (s.length() == 5) {
-	            	swedishWords.add(s);
-	            	ordligWords5.add(s);
-	            	//swedishWords6.add((s+"A"));
-	            	//swedishWords6.add((s+"E"));
-	            	
-	            }
-	            if (s.length() == 4) {
-	            	if (Wordle.isConsonant(s.charAt(3)))
-	            	{
-	            		//System.out.println(s + "ends with consonant " + s.charAt(3) + " , add " + s + "A");
-	            		swedishWords.add((s+"A"));
-	            		swedishWords.add((s+"E"));
-	            	}
-	            	else {
-	            		//System.out.println(s + "ends with vowel " + s.charAt(3) + " , add " + s + "N");
-	            		swedishWords.add((s+"N"));
-	            	}
-	            	
-	            	/*swedishWords6.add((s+"EN"));
-	            	swedishWords6.add((s+"ER"));
-	            	swedishWords6.add((s+"AR"));
-	            	swedishWords6.add((s+"AN"));
-	            	swedishWords6.add((s+"ET"));
-	            	swedishWords6.add((s+"AT"));
-	            	swedishWords6.add((s+"OR"));*/
-	            }
-	            if (s.length() == 3 && Wordle.isConsonant(s.charAt(2))) {
-	            	swedishWords.add((s+"EN"));
-	            	swedishWords.add((s+"ER"));
-	            	swedishWords.add((s+"AR"));
-	            	swedishWords.add((s+"AN"));
-	            	swedishWords.add((s+"ET"));
-	            	swedishWords.add((s+"AT"));
-	            }
-	            
-				}
-			sc = new Scanner(new File(englishFile));
-			while(sc.hasNext()){
-				
-	            String s = sc.next();
-	            if (s.length() == 5)
-	            	englishWords.add(s.toUpperCase());
-	            if (s.length() == 4) {
-	            	englishWords.add((s+"s").toUpperCase());
-	            }
-			}
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		WordCollector wc = new WordCollector();
+        ArrayList<String> swedishWords = wc.swedish5();
+        ArrayList<String> swedishWords6 = wc.swedish6();
+        ArrayList<String> englishWords = wc.english5();
+		ArrayList<String> englishWords6 = wc.english6();
+		
+		System.out.println("swedish 5words: " + swedishWords.size());
+		System.out.println("swedish 6words: " + swedishWords6.size());
+		System.out.println("english 5words: " + englishWords.size());
+		System.out.println("english 6words: " + englishWords6.size());
+		
         
-            //.....
+        
         
 
 
 
         JButton send = new JButton("Generera ord");
-        JButton reset = new JButton("�terst�ll alfabet");
+        JButton reset = new JButton("Återställ alfabet");
         JButton shortReset = new JButton("litet alfabet");
         //JButton semantle = new JButton("sem");
         JButton ordiligKnapp = new JButton("lig5");

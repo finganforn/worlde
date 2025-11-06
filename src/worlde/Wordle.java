@@ -1,4 +1,4 @@
-//package wordle;
+package wordle;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
