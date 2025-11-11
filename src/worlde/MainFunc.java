@@ -24,11 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class MainFunc {
-	
-	//USDFHJ v1 n2 t5 e1 teven
-	
-	//QWYFK�ZXCVM  e3 r1 e4 r5 hittade ej maerke!
-	
+		
 	static String swedishAlphabet = "QWERTYUIOPÅASDFGHJKLÖÄZXCVBNM";
 	static String englishAlphabet = "QWERTYUIOPASDFGHJKLZXCVBNM";
 	static String swedishShortcut = "QWRUSDFHJÖÄZXCB";
@@ -41,17 +37,7 @@ public class MainFunc {
 	
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		boolean wackyLocalization = false;
-
-		
-		//ArrayList<Integer> nums = new ArrayList<Integer>();
-		//nums.add(15); nums.add(6); nums.add(7); nums.add(4); nums.add(2);
-		//operationsGame(nums, 59);
-		
-		limitSec = 4;
-		
-		
+		limitSec = 25;
 		
 		JFrame frame = new JFrame("WordleCheater");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -62,8 +48,6 @@ public class MainFunc {
 		JPanel bottomPanel = new JPanel();
 		JLabel ord = new JLabel("Ord");
 		JTextField ordBox = new JTextField("         ");
-		
-		//ordBox.setText("");
 		
         JLabel letters = new JLabel("Bokstäver");
         JTextField letterBox = new JTextField("QWERTYUIOPÅASDFGHJKLÖÄZXCVBNM");
@@ -80,25 +64,13 @@ public class MainFunc {
         ArrayList<String> englishWords = wc.english5();
 		ArrayList<String> englishWords6 = wc.english6();
 		
-		System.out.println("swedish 5words: " + swedishWords.size());
-		System.out.println("swedish 6words: " + swedishWords6.size());
-		System.out.println("english 5words: " + englishWords.size());
-		System.out.println("english 6words: " + englishWords6.size());
-		
-        
-        
-        
-
-
-
         JButton send = new JButton("Generera ord");
         JButton reset = new JButton("Återställ alfabet");
         JButton shortReset = new JButton("litet alfabet");
-        //JButton semantle = new JButton("sem");
+
         JButton ordiligKnapp = new JButton("lig5");
         JButton ordiligKnapp6 = new JButton("lig6");
-
-        //JButton reset = new JButton("Reset");
+		
         topPanel.add(ord);
         topPanel.add(ordBox);
         topPanel.add(position);
@@ -110,11 +82,10 @@ public class MainFunc {
         midPanel.add(englishBox);
         midPanel.add(reset);
         midPanel.add(shortReset);
-        //midPanel.add(semantle);
+        
         midPanel.add(ordiligKnapp);
         midPanel.add(ordiligKnapp6);
-        //midPanel.add(publishAdvice);
-        //midPanel.add(everythingBox);
+        
         JPanel sendPanel = new JPanel();
         
         sendPanel.add(send);
@@ -189,8 +160,7 @@ public class MainFunc {
 				try {
 					limitSec = Integer.parseInt(limitSecStr);
 				}
-				
-				
+			
 				catch (Exception ex) {
 					System.out.println(ex.getMessage());
 				}
@@ -208,16 +178,13 @@ public class MainFunc {
 					if (Character.isLetter(c))
 						allowed.add(letters.charAt(i));
 				}
-
-				
 				String[] posSplit = positions.split(" ");
 
 				if (posSplit.length > 0 && posSplit[0].length() > 1) {
 				for (int i = 0; i < posSplit.length; i++) {				
-						
-						String num = posSplit[i].substring(1);
-						num = num.replaceAll( "[^\\d]", "" );
-						try {
+					String num = posSplit[i].substring(1);
+					num = num.replaceAll( "[^\\d]", "" );
+					try {
 						int iNum = Integer.parseInt(num);
 						char let = posSplit[i].charAt(0);
 						if (iNum > 0) {
@@ -225,123 +192,65 @@ public class MainFunc {
 							//wrongPos.add(iNum); ENKLARE INDEX
 							wrongPos.add(iNum-1);
 						}
-						}
-						catch (NumberFormatException ex) {
-							System.out.println("ignoring " + posSplit[i]);
+					}
+					catch (NumberFormatException ex) {
+						System.out.println("ignoring " + posSplit[i]);
 						}
 					}
 				}
 				
-				//avbryt om f�r m�nga alternativ
-				int solutions = solutionsCount(word, allowed, required);
-				System.out.println(solutions + " possible words");
-				int superWayTooMany = 2000000000;
-				int wayTooMany = 300000000;
-				int somewhatTooMany = 30000000;
-				int fewTooMany = 3000000;
-				
-				if (false) {}/* 
-				if (solutions > superWayTooMany)
-					JOptionPane.showMessageDialog(null, "too many solutions ("+ solutions + ")");	
-				else if (solutions > wayTooMany && required.size() < 1)
-					JOptionPane.showMessageDialog(null, "too many solutions ("+ solutions + ")");
-				else if (solutions > somewhatTooMany && required.size() < 2)
-					JOptionPane.showMessageDialog(null, "too many solutions ("+ solutions + ")");	
-				else if (solutions > fewTooMany && required.size() < 3)
-					JOptionPane.showMessageDialog(null, "too many solutions ("+ solutions + ")");	
-				*/
-				else {
+				ArrayList<String> ordelRes = new ArrayList<String>();
+				ArrayList<String> yellowGens = Wordle.generateQueryWords(word, required, wrongPos, now, (int) (limitSec*0.75));
+				if (yellowGens.get(yellowGens.size()-1).equals("")) {
+					System.out.println("generator1 timed out");
+					yellowGens.remove(yellowGens.size()-1);
+				}
+				for (String s2 : yellowGens)
+					ordelRes.addAll(Wordle.ordel(s2, allowed, required, wrongPos, now, limitSec));
+				System.out.println("ordelRes done at " + Wordle.timePassed(now) + "ms");
 					
-					//FLAWED FUNCTION
-					//ArrayList<String> yellowGens = Wordle.generateQueryWords(word, required, wrongPos);					
-					//
 					
-					ArrayList<String> ordelRes = new ArrayList<String>();
-					//if (solutions > somewhatTooMany) {
-					if (solutions > 5) { //wgatever
-						
-						//JOptionPane.showMessageDialog(null, "experimental func!");	
-						
-						
-						//pick one of the wrongpos
-						/*char wc = required.get(0);
-						int wp = wrongPos.get(0);
-						
-						ArrayList<String> altWords = new ArrayList<String>();
-						for (int i = 0; i < word.length(); i++) {
-							char[] ca = word.toCharArray();
-							if (i != wp && ca[i] == ' ') {
-								ca[i] = wc;
-								String tWord = new String(ca);
-								ArrayList<String> ordelRes2 = Wordle.ordel(tWord, allowed, required, wrongPos);
-							ordelRes.addAll(ordelRes2); }
-							
-						}*/
-						
-						
-						//TODO TIMER FÖR DENNA FUNKTIONEN
-						
-						ArrayList<String> yellowGens = Wordle.generateQueryWords(word, required, wrongPos, now, (int) (limitSec*0.75));
-						if (yellowGens.get(yellowGens.size()-1).equals("")) {
-						
-							System.out.println("generator1 timed out");
-							yellowGens.remove(yellowGens.size()-1);
-							
-						}
-						for (String s2 : yellowGens)
-							ordelRes.addAll(Wordle.ordel(s2, allowed, required, wrongPos, now, limitSec));
-						System.out.println("ordelRes done at " + Wordle.timePassed(now) + "ms");
-					}	
-					else 
-						ordelRes = Wordle.ordel(word, allowed, required, wrongPos, now, limitSec);
-					
-					ArrayList<String> allWords = new ArrayList<String>();
-					for (int i = 0; i < ordelRes.size(); i++) {
-						
-										
-						String curr = ordelRes.get(i);
-						if (englishBox.isSelected()) {
-							if (englishWords.contains(curr) && !allWords.contains(curr)) {
-								//System.out.println(ordelRes.get(i));
-									allWords.add(curr);
+				ArrayList<String> allWords = new ArrayList<String>();
+				for (int i = 0; i < ordelRes.size(); i++) {
+					String curr = ordelRes.get(i);
+					if (englishBox.isSelected()) {
+						if (word.length() == 6) {
+							if (englishWords6.contains(curr) && !allWords.contains(curr)) {
+								allWords.add(curr);
 							}
-							
 						}
 						else {
-							if (word.length() == 6) {
-								if (swedishWords6.contains(curr) && !allWords.contains(curr)) {
-									//System.out.println(ordelRes.get(i));
-									allWords.add(curr);
-								}
-							}
-							else {
-							
-								if (swedishWords.contains(curr) && !allWords.contains(curr)) {
-									//System.out.println(ordelRes.get(i));
-									allWords.add(curr);
-								}
+							if (englishWords.contains(curr) && !allWords.contains(curr)) {
+								allWords.add(curr);
 							}
 						}
-						
-						
-						
-					
-					}
-					int timeMs = Wordle.timePassed(now);
-					String resStr = "";
-					for (int i = 0; i < allWords.size(); i++) {
-							resStr += allWords.get(i) + " ";
-							if (i % 15 == 0 && i != 0)
-								resStr += "\n";
+							
+							
 							
 					}
-					
-					String message = "" + timeMs + "ms " + (timeMs/1000 > limitSec ? "TOO LONG! " : "");
-					System.out.println("full func took " + Wordle.timePassed(now) + "ms");
-					JOptionPane.showMessageDialog(null, message+"\n"+ resStr);	
-					
+					else {
+						if (word.length() == 6) {
+							if (swedishWords6.contains(curr) && !allWords.contains(curr)) {
+								allWords.add(curr);
+							}
+						}
+						else {
+							if (swedishWords.contains(curr) && !allWords.contains(curr)) {
+								allWords.add(curr);
+							}
+						}
+					}
 				}
-				
+				int timeMs = Wordle.timePassed(now);
+				String resStr = "";
+				for (int i = 0; i < allWords.size(); i++) {
+						resStr += allWords.get(i) + " ";
+						if (i % 15 == 0 && i != 0)
+							resStr += "\n";
+				}
+				String message = "" + timeMs + "ms " + (timeMs/1000 > limitSec ? "TOO LONG! " : "");
+				System.out.println("full func took " + Wordle.timePassed(now) + "ms");
+				JOptionPane.showMessageDialog(null, message+"\n"+ resStr);	
 			}
 			
 
@@ -351,37 +260,8 @@ public class MainFunc {
 			}
         });
 
-
-
-	
-
-
 	}
-	
-	private static int solutionsCount(String word, ArrayList<Character> allowedChars, ArrayList<Character> requiredChars) {
-		int empty = 0;
-		for (int i = 0; i < word.length(); i++) {
-			if (word.charAt(i) == ' ')
-				empty++;
-		}
-		ArrayList<Character> allLetters = new ArrayList<Character>();
 		
-		
-		for (Character c : allowedChars) {
-			if (!allLetters.contains(c))
-				allLetters.add(c);
-		}
-		for (Character c : requiredChars) {
-			if (!allLetters.contains(c))
-				allLetters.add(c);
-		}
-		
-		
-		
-		int solutions = (int) Math.pow(allowedChars.size(), empty);
-		return solutions;
-	}
-	
 	private static boolean prim(int tal) {
 		if (tal < 2)
 			return false;
