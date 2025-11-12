@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Date;
 import java.util.Random;
 import java.util.Scanner;
@@ -22,6 +23,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import java.io.IOException;
 
 public class MainFunc {
 		
@@ -103,6 +106,10 @@ public class MainFunc {
         frame.getContentPane().add(BorderLayout.CENTER, midPanel);        
         frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);
         frame.setVisible(true);
+		
+		
+		
+		
         
 
         reset.addActionListener(new ActionListener() {
@@ -153,6 +160,39 @@ public class MainFunc {
         
         send.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+		
+/*		
+				List<List<String>> allEWords = null;
+		List<List<String>> allSWords = null;
+		
+		////DEBUG BIG WORD COLLECTOR
+		try {
+			allEWords = wc.groupWordsByLength("english-words.txt");
+			allSWords = wc.groupWordsByLength("svenska-ord.txt");
+			for (int i = 0; i < allEWords.size(); i++) {
+				System.out.println("english words " + i);
+				List<String> thisList = allEWords.get(i);
+				if (thisList != null && thisList.size() > 3) {
+					for (int j = 0; j < 5; j++) {
+						System.out.println(thisList.get(j));
+					}
+				}
+			}
+			for (int i = 0; i < allSWords.size(); i++) {
+				System.out.println("swedish words " + i);
+				List<String> thisList = allSWords.get(i);
+				if (thisList != null && thisList.size() > 3) {
+					for (int j = 0; j < 5; j++) {
+						System.out.println(thisList.get(j));
+					}
+				}
+			}
+		}
+		catch (IOException ex) {
+			
+		}*/
+			
+		
 				System.out.println("----------------------START------------------------");
 				System.out.println("---------------------------------------------------");
 				boolean ranOutOfTime = false;
@@ -166,6 +206,13 @@ public class MainFunc {
 				}
 				LocalTime now = LocalTime.now();
 				String word = ordBox.getText().toUpperCase();
+				
+				boolean english = englishBox.isSelected();
+				
+				ArrayList<String> customWordList = new ArrayList<String>();
+				if (word.length() < 5 || word.length() > 6)
+					customWordList = wc.getWordsOfLengthX(english, word.length());
+				
 				
 				String letters = letterBox.getText().toUpperCase();
 				String positions = positionBox.getText().toUpperCase();
@@ -213,14 +260,19 @@ public class MainFunc {
 				ArrayList<String> allWords = new ArrayList<String>();
 				for (int i = 0; i < ordelRes.size(); i++) {
 					String curr = ordelRes.get(i);
-					if (englishBox.isSelected()) {
+					if (english) {
 						if (word.length() == 6) {
 							if (englishWords6.contains(curr) && !allWords.contains(curr)) {
 								allWords.add(curr);
 							}
 						}
-						else {
+						else if (word.length() == 5) {
 							if (englishWords.contains(curr) && !allWords.contains(curr)) {
+								allWords.add(curr);
+							}
+						}
+						else {
+							if (customWordList.contains(curr) && !allWords.contains(curr)) {
 								allWords.add(curr);
 							}
 						}
@@ -234,8 +286,13 @@ public class MainFunc {
 								allWords.add(curr);
 							}
 						}
-						else {
+						else if (word.length() == 5) {
 							if (swedishWords.contains(curr) && !allWords.contains(curr)) {
+								allWords.add(curr);
+							}
+						}
+						else { //varken 5 eller 6
+							if (customWordList.contains(curr) && !allWords.contains(curr)) {
 								allWords.add(curr);
 							}
 						}
